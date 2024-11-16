@@ -2,7 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
-import { db, auth } from '../../FirebaseConfig';
+import { db, auth } from "../../FirebaseConfig";
+import { router } from "expo-router";
 
 export default function HomeScreen() {
   const features = [
@@ -15,8 +16,15 @@ export default function HomeScreen() {
   ];
 
   const user = auth.currentUser;
-  const username = user?.email?.split('@');
+  const username = user?.email?.split("@");
 
+  const handleFeaturePress = (feature: string) => {
+    if (feature === "Map") {
+      router.push("/map");
+    } else {
+      alert(`Feature "${feature}" is not implemented yet.`);
+    }
+  };
   return (
     <LinearGradient
       colors={["#C9E9D2", "#FEF9F2"]}
@@ -28,7 +36,11 @@ export default function HomeScreen() {
         <Text style={styles.title}>How can I help you, {username![0]}?</Text>
         <View style={styles.grid}>
           {features.map((feature, index) => (
-            <TouchableOpacity key={index} style={styles.card}>
+            <TouchableOpacity
+              key={index}
+              style={styles.card}
+              onPress={() => handleFeaturePress(feature.name)}
+            >
               <Ionicons name={feature.icon} size={50} color="#789DBC" />
               <Text style={styles.cardText}>{feature.name}</Text>
             </TouchableOpacity>
