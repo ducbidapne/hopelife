@@ -1,99 +1,109 @@
-import { Text, StyleSheet, TextInput, TouchableOpacity, SafeAreaView } from 'react-native'
-import React, { useState } from 'react'
-import { auth } from '../FirebaseConfig'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
-import { router } from 'expo-router'
+import React from "react";
+import {
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+} from "react-native";
+import { router } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 
-
-const index = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-
-  const signIn = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(auth, email, password)
-      if (user) router.replace('/(tabs)');
-    } catch (error: any) {
-      console.log(error)
-      alert('Sign in failed: ' + error.message);
-    }
-  }
-
-  const signUp = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(auth, email, password)
-      if (user) router.replace('/(tabs)');
-    } catch (error: any) {
-      console.log(error)
-      alert('Sign in failed: ' + error.message);
-    }
-  }
-
+const Index = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput style={styles.textInput} placeholder="email" value={email} onChangeText={setEmail} />
-      <TextInput style={styles.textInput} placeholder="password" value={password} onChangeText={setPassword} secureTextEntry/>
-      <TouchableOpacity style={styles.button} onPress={signIn}>
-        <Text style={styles.text}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={signUp}>
-        <Text style={styles.text}>Make Account</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
-  )
-}
+    <LinearGradient
+      colors={["#C9E9D2", "#FEF9F2"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Welcome to</Text>
+        <Text style={styles.appName}>HOPELINE</Text>
+        <Image
+          source={require("@/assets/images/logo_hopeline.jpg")}
+          style={styles.appLogo}
+        />
 
-export default index
+        <TouchableOpacity
+          style={styles.buttonSignIn}
+          onPress={() => router.push("/sign-in")}
+        >
+          <Text style={styles.text}>Sign In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonSignUp}
+          onPress={() => router.push("/sign-up")}
+        >
+          <Text style={styles.textSignUp}>Sign Up</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </LinearGradient>
+  );
+};
+
+export default Index;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FAFAFA', // A softer white for a modern, minimalist background
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
-    fontSize: 28, // A bit larger for a more striking appearance
-    fontWeight: '800', // Extra bold for emphasis
-    marginBottom: 40, // Increased space for a more airy, open feel
-    color: '#1A237E', // A deep indigo for a sophisticated, modern look
+    fontSize: 32,
+    fontWeight: "400",
+    marginBottom: 10,
+    color: "#5C6BC0",
   },
-  textInput: {
-    height: 50, // Standard height for elegance and simplicity
-    width: '90%', // Full width for a more expansive feel
-    backgroundColor: '#FFFFFF', // Pure white for contrast against the container
-    borderColor: '#E8EAF6', // A very light indigo border for subtle contrast
-    borderWidth: 2,
-    borderRadius: 15, // Softly rounded corners for a modern, friendly touch
+  appName: {
+    fontSize: 40,
+    fontWeight: "700",
+    marginBottom: 50,
+    color: "#5C6BC0",
+  },
+  appLogo: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    marginBottom: 50,
+  },
+  buttonSignIn: {
+    height: 50,
+    width: 350,
     marginVertical: 15,
-    paddingHorizontal: 25, // Generous padding for ease of text entry
-    fontSize: 16, // Comfortable reading size
-    color: '#3C4858', // A dark gray for readability with a hint of warmth
-    shadowColor: '#9E9E9E', // A medium gray shadow for depth
+    backgroundColor: "#789DBC",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#5C6BC0",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 4, // Slightly elevated for a subtle 3D effect
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 5,
   },
-  button: {
-    width: '90%',
+  buttonSignUp: {
+    height: 50,
+    width: 350,
     marginVertical: 15,
-    backgroundColor: '#5C6BC0', // A lighter indigo to complement the title color
-    padding: 20,
-    borderRadius: 15, // Matching rounded corners for consistency
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#5C6BC0', // Shadow color to match the button for a cohesive look
+    backgroundColor: "#C6D6E4",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#5C6BC0",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 5,
   },
   text: {
-    color: '#FFFFFF', // Maintained white for clear visibility
-    fontSize: 18, // Slightly larger for emphasis
-    fontWeight: '600', // Semi-bold for a balanced weight
-  }
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  textSignUp: {
+    color: "#2B2B2B",
+    fontSize: 18,
+    fontWeight: "600",
+  },
 });

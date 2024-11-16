@@ -9,12 +9,13 @@ import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAgRzKR2nabtJO-B1kcjSAk6tKpSDWssOY",
-  authDomain: "hopelife-dde34.firebaseapp.com",
-  projectId: "hopelife-dde34",
-  storageBucket: "hopelife-dde34.firebasestorage.app",
-  messagingSenderId: "327416954379",
-  appId: "1:327416954379:web:b5438124f7ecd0bafd110e"
+  apiKey: "AIzaSyA3KNGz6N5iYheasa8R-1JJl2NpPfzZ5DQ",
+  authDomain: "productmanagement-fe02a.firebaseapp.com",
+  projectId: "productmanagement-fe02a",
+  storageBucket: "productmanagement-fe02a.appspot.com",
+  messagingSenderId: "17280252449",
+  appId: "1:17280252449:web:ad09a02e3c4bfd57f78160",
+  measurementId: "G-F659T0LFEY"
 };
 
 // Initialize Firebase
@@ -24,3 +25,5 @@ export const auth = initializeAuth(app, {
 });
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+// export const auth = firebase.auth();
+// export const db = firebase.firestore();
