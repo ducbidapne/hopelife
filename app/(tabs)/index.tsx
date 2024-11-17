@@ -19,16 +19,25 @@ export default function HomeScreen() {
   const username = user?.email?.split("@");
 
   const handleFeaturePress = (feature: string) => {
-    if (feature === "Map") {
-      router.push("/map");
-    } else if (feature === "Look up") {
-      router.push("/news");
-    } else if (feature === "Record") {
-      router.push("/record");
-    } else {
-      alert(`Feature "${feature}" is not implemented yet.`);
+    switch (feature) {
+      case "Map":
+        router.push("/map");
+        break;
+      case "Look up":
+        router.push("/news");
+        break;
+      case "Record":
+        router.push("/record");
+        break;
+      case "Quiz":
+        router.push("/quiz");
+        break;
+      default:
+        alert(`Feature "${feature}" is not implemented yet.`);
+        break;
     }
   };
+
   return (
     <LinearGradient
       colors={["#C9E9D2", "#FEF9F2"]}

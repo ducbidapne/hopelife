@@ -41,6 +41,7 @@ export default function RootLayout() {
         <Stack.Screen name="record-edit/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="add-record" options={{ headerShown: false }} />
         <Stack.Screen name="map" options={{ headerShown: false }} />
+        <Stack.Screen name="quiz" options={{ headerShown: false }} />
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
         <Stack.Screen name="sign-up" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
