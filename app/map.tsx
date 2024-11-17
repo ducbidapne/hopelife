@@ -12,7 +12,6 @@ import * as Location from "expo-location";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
-
 interface LocationType {
   latitude: number;
   longitude: number;
@@ -90,8 +89,13 @@ export default function MapScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={()=>{router.push('/(tabs)')}} style={styles.backButton}>
-      <Ionicons name="arrow-back" size={30} color="#fff" /> {/* Back icon */}
+      <TouchableOpacity
+        onPress={() => {
+          router.push("/(tabs)");
+        }}
+        style={styles.backButton}
+      >
+        <Ionicons name="arrow-back" size={30} color="#fff" /> {/* Back icon */}
       </TouchableOpacity>
       <MapView style={styles.map} initialRegion={currentLocation}>
         <Marker
@@ -128,7 +132,7 @@ export default function MapScreen() {
               <Text
                 style={[
                   styles.infoText,
-                  item.name === "Hospital"
+                  item?.name === "Hospital"
                     ? { color: "orange" }
                     : { color: "green" },
                 ]}

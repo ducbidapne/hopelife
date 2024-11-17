@@ -21,6 +21,8 @@ export default function HomeScreen() {
   const handleFeaturePress = (feature: string) => {
     if (feature === "Map") {
       router.push("/map");
+    } else if (feature === "Look up") {
+      router.push("/news");
     } else {
       alert(`Feature "${feature}" is not implemented yet.`);
     }
