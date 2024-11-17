@@ -36,6 +36,10 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="news" options={{ headerShown: false }} />
         <Stack.Screen name="newspage/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="record" options={{ headerShown: false }} />
+        <Stack.Screen name="record-detail/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="record-edit/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="add-record" options={{ headerShown: false }} />
         <Stack.Screen name="map" options={{ headerShown: false }} />
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
         <Stack.Screen name="sign-up" options={{ headerShown: false }} />

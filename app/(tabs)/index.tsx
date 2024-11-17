@@ -23,6 +23,8 @@ export default function HomeScreen() {
       router.push("/map");
     } else if (feature === "Look up") {
       router.push("/news");
+    } else if (feature === "Record") {
+      router.push("/record");
     } else {
       alert(`Feature "${feature}" is not implemented yet.`);
     }

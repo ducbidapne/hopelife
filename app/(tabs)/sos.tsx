@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Linking,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -19,23 +20,41 @@ export default function SOSScreen(): JSX.Element {
   const user = auth.currentUser;
   const username = user?.email?.split("@");
 
+  // Danh sách số khẩn cấp ở Việt Nam
   const emergencyContacts: EmergencyContact[] = [
-    { name: "My Cousin", phone: "0818741182" },
-    { name: "My Dad", phone: "0334339226" },
+    { name: "Police", phone: "113" },
+    { name: "Fire Department", phone: "114" },
+    { name: "Ambulance", phone: "115" },
+    { name: "Traffic Police", phone: "1022" },
+    { name: "Traffic Accident Assistance", phone: "1040" },
   ];
 
   const handleSOSPress = () => {
-    alert("Emergency help is on the way!");
+    const phoneUrl = "tel:111"; // Đặt số điện thoại cần gọi
+    Linking.openURL(phoneUrl).catch((err) =>
+      console.error("Failed to open dialer", err)
+    );
+  };
+
+  const handleCallPress = (phone: string) => {
+    // Mở ứng dụng gọi điện thoại với số đã chọn
+    const phoneUrl = `tel:${phone}`;
+    Linking.openURL(phoneUrl).catch((err) =>
+      console.error("Failed to open dialer", err)
+    );
   };
 
   const renderContact = ({ item }: { item: EmergencyContact }): JSX.Element => (
-    <View style={styles.contactItem}>
-      <Ionicons name="shield-checkmark" size={24} color="#789DBC" />
-      <View style={styles.contactTextContainer}>
-        <Text style={styles.contactName}>{item.name}</Text>
-        <Text style={styles.contactPhone}>{item.phone}</Text>
+    <TouchableOpacity onPress={() => handleCallPress(item.phone)}>
+      <View style={styles.contactItem}>
+        <Ionicons name="shield-checkmark" size={24} color="#789DBC" />
+        <View style={styles.contactTextContainer}>
+          <Text style={styles.contactName}>{item.name}</Text>
+
+          <Text style={styles.contactPhone}>{item.phone}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -59,8 +78,8 @@ export default function SOSScreen(): JSX.Element {
         </TouchableOpacity>
 
         {/* Emergency Contacts */}
-        <Text style={styles.sectionTitle}>Emergency Number</Text>
-        <Text style={styles.sectionSubtitle}>List of contacts</Text>
+        <Text style={styles.sectionTitle}>Emergency Numbers</Text>
+        <Text style={styles.sectionSubtitle}>List of emergency contacts</Text>
 
         <FlatList
           data={emergencyContacts}
