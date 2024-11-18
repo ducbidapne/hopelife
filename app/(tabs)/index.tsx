@@ -9,7 +9,7 @@ export default function HomeScreen() {
   const features = [
     { name: "Record", icon: "mic-outline" },
     { name: "Look up", icon: "search-outline" },
-    { name: "Support", icon: "person-circle-outline" },
+    { name: "AI Support", icon: "person-circle-outline" },
     { name: "Messages", icon: "chatbubble-outline" },
     { name: "Quiz", icon: "help-circle-outline" },
     { name: "Map", icon: "map-outline" },
@@ -31,6 +31,9 @@ export default function HomeScreen() {
         break;
       case "Quiz":
         router.push("/quiz");
+        break;
+      case "AI Support":
+        router.push("/ai-support");
         break;
       default:
         alert(`Feature "${feature}" is not implemented yet.`);
