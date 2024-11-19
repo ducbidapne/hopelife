@@ -1,8 +1,20 @@
-# Welcome to your Expo app 👋
+# Welcome to HopeLine App 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ## Get started
+- Setup manual: Firebase, Gemini API
++ Firebase:
+   Go to: https://console.firebase.google.com/
+   - Create new project
+   - Add app
+   - Choose: Web
+   - Copy FirebaseConfig and paste in project
++Gemini API:
+   Go to:https://ai.google.dev/gemini-api/docs/quickstart?hl=vi&lang=node
+   - Generate an api key
+   - Install SDK Gemini: npm install @google/generative-ai
+   - Paste API key in .env file
 
 1. Install dependencies
 
