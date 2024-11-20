@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -12,9 +12,31 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { db, auth } from "../../FirebaseConfig";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-
+import { launchImageLibraryAsync } from "expo-image-picker";
+import { useState } from "react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { updateProfile } from "firebase/auth";
+import { storage } from "../../FirebaseConfig";
 
 export default function SettingsScreen() {
+  const [image, setImage] = useState<string | null>(null);
+
+  // Load image from Firebase Storage
+  useEffect(() => {
+    const getAvatar = async () => {
+      const storageRef = ref(storage, `avatars/${auth.currentUser?.uid}`);
+      const url = await storageRef.fullPath;
+      // Get full url of the image
+      try {
+        const url = await getDownloadURL(storageRef);
+        setImage(url);
+      } catch (error) {
+        console.log('Unable to retrieve image', error);
+      }
+    };
+    getAvatar();
+  }, []);
+
   const settingsOptions = [
     { title: "Account", icon: "person-outline" },
     { title: "Notification", icon: "notifications-outline" },
@@ -26,6 +48,10 @@ export default function SettingsScreen() {
 
   const user = auth.currentUser;
   const username = user?.email?.split("@");
+
+  const handleChangePassword = () => {
+    router.push("/change-password");
+  }
 
   const handleLogout = () => {
     Alert.alert(
@@ -51,7 +77,31 @@ export default function SettingsScreen() {
       { cancelable: false }
     );
   };
+  const pickImage = async () => {
+    let result = await launchImageLibraryAsync({
+      mediaTypes: ['images', 'videos'],
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      // Save to Firebase Storage
+      const storageRef = ref(storage, `avatars/${user?.uid}`);
+      const response = await fetch(result.assets[0].uri);
+      const blob = await response.blob();
+      await uploadBytes(storageRef, blob);
+      Alert.alert("Success", "Change avatar successfully!");
+      if (user) {
+        await updateProfile(user, {
+          photoURL: `avatars/${user.uid}`,
+        });
+      }
+    }
+  };
   return (
     <LinearGradient
       colors={["#C9E9D2", "#FEF9F2"]}
@@ -66,9 +116,12 @@ export default function SettingsScreen() {
         {/* Profile Section */}
         <View style={styles.profileContainer}>
           <View style={styles.avatar}>
-            <Ionicons name="person-circle" size={100} color="#789DBC" />
+            <Image
+              source={{ uri: image || user?.photoURL || undefined }}
+              style={{ width: 100, height: 100, borderRadius: 50 }}
+            />
             <TouchableOpacity style={styles.editIcon}>
-              <Ionicons name="create-outline" size={20} color="#fff" />
+              <Ionicons name="create-outline" size={20} color="#fff" onPress={pickImage}/>
             </TouchableOpacity>
           </View>
           <Text style={styles.profileName}>{username![0]}</Text>
@@ -85,6 +138,8 @@ export default function SettingsScreen() {
               onPress={() => {
                 if (item.title === "Logout") {
                   handleLogout();
+                } else if (item.title === "Privacy & Security") {
+                  handleChangePassword();
                 } else {
                   Alert.alert(
                     "Info",
