@@ -30,6 +30,10 @@ const SignIn = () => {
     router.replace("/sign-up");
   };
 
+  const handleForgotPassword = async () => {
+    router.replace("/forgot-password");
+  }
+
   return (
     <LinearGradient
       colors={["#C9E9D2", "#FEF9F2"]}
@@ -57,7 +61,7 @@ const SignIn = () => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={handleForgotPassword}>
           <Text style={styles.textForgotPassword}>Forgot password?</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleSignIn}>
