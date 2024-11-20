@@ -8,6 +8,8 @@ import {
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import * as Speech from "expo-speech";
 import { FontAwesome } from "@expo/vector-icons";
@@ -26,7 +28,7 @@ const GeminiChat: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [showStopIcon, setShowStopIcon] = useState<boolean>(false);
-  const API_KEY: string = "";
+  const API_KEY: string = "AIzaSyBK8vJKhq6Jo-RgZVdPNX16KxIt-BB7GFs";
 
   useEffect(() => {
     const startChat = async () => {
@@ -109,60 +111,66 @@ const GeminiChat: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => {
-            router.push("/(tabs)");
-          }}
-        >
-          <Entypo name="chevron-left" size={28} color="#fff" />
-        </TouchableOpacity>
-        <Text style={styles.title}>AI Support</Text>
-      </View>
-      <FlatList
-        data={messages}
-        renderItem={renderMessage}
-        keyExtractor={(item, index) => index.toString()}
-      />
-      <View style={styles.inputContainer}>
-        <TouchableOpacity style={styles.micIcon} onPress={toggleSpeech}>
-          {isSpeaking ? (
-            <FontAwesome
-              name="microphone-slash"
-              size={24}
-              color="white"
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          ) : (
-            <FontAwesome
-              name="microphone"
-              size={24}
-              color="white"
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          )}
-        </TouchableOpacity>
-        <TextInput
-          placeholder="Type a message"
-          placeholderTextColor="black"
-          onChangeText={setUserInput}
-          value={userInput}
-          onSubmitEditing={sendMessage}
-          style={styles.input}
-        />
-        {showStopIcon && (
-          <TouchableOpacity style={styles.stopIcon} onPress={ClearMessage}>
-            <Entypo name="controller-stop" size={24} color="white" />
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={20} // Điều chỉnh khoảng cách giữa TextInput và bàn phím
+      >
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => {
+              router.push("/(tabs)");
+            }}
+          >
+            <Entypo name="chevron-left" size={28} color="#fff" />
           </TouchableOpacity>
-        )}
-      </View>
+          <Text style={styles.title}>AI Support</Text>
+        </View>
+        <FlatList
+          data={messages}
+          renderItem={renderMessage}
+          keyExtractor={(item, index) => index.toString()}
+        />
+        <View style={styles.inputContainer}>
+          <TouchableOpacity style={styles.micIcon} onPress={toggleSpeech}>
+            {isSpeaking ? (
+              <FontAwesome
+                name="microphone-slash"
+                size={24}
+                color="white"
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              />
+            ) : (
+              <FontAwesome
+                name="microphone"
+                size={24}
+                color="white"
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              />
+            )}
+          </TouchableOpacity>
+          <TextInput
+            placeholder="Type a message"
+            placeholderTextColor="black"
+            onChangeText={setUserInput}
+            value={userInput}
+            onSubmitEditing={sendMessage}
+            style={styles.input}
+          />
+          {showStopIcon && (
+            <TouchableOpacity style={styles.stopIcon} onPress={ClearMessage}>
+              <Entypo name="controller-stop" size={24} color="white" />
+            </TouchableOpacity>
+          )}
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

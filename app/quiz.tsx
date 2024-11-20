@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import React from "react";
 
 const questions = [
   {
@@ -83,7 +84,7 @@ export default function Quiz() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
 
-  const router = useRouter(); // Use router for navigation
+  const router = useRouter();
 
   const handleAnswer = (answer: string) => {
     const correct = questions[currentQuestion].correctAnswer === answer;
@@ -96,7 +97,7 @@ export default function Quiz() {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      router.push("/(tabs)"); // Navigate to "/tabs" on Finish
+      router.push("/(tabs)");
     }
   };
 
@@ -109,14 +110,13 @@ export default function Quiz() {
 
   return (
     <View style={styles.container}>
-      {/* Back to Tabs Button */}
       <Ionicons
         name="arrow-back"
         size={24}
-        color="#000"
+        color="#4CAF50"
         onPress={() => router.push("/(tabs)")}
+        style={styles.backIcon}
       />
-      {/* Progress Bar */}
       <View style={styles.progressContainer}>
         <Text style={styles.progressText}>
           Question {currentQuestion + 1} of {questions.length}
@@ -131,7 +131,6 @@ export default function Quiz() {
         </View>
       </View>
 
-      {/* Question */}
       <View style={styles.questionContainer}>
         <Text style={styles.question}>
           {questions[currentQuestion].question}
@@ -156,7 +155,10 @@ export default function Quiz() {
       ) : (
         <View>
           <Text
-            style={[styles.answerHighlight, { color: isCorrect ? "green" : "red" }]}
+            style={[
+              styles.answerHighlight,
+              { color: isCorrect ? "#4CAF50" : "#F44336" },
+            ]}
           >
             {isCorrect ? "Good!" : "Explanation:"}
           </Text>
@@ -176,7 +178,6 @@ export default function Quiz() {
         </View>
       )}
 
-      {/* Back Button */}
       {currentQuestion > 0 && (
         <TouchableOpacity style={styles.backButton} onPress={previousQuestion}>
           <Text style={styles.buttonText}>BACK</Text>
@@ -190,77 +191,86 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#e8f5e9",
+    backgroundColor: "#F1F8E9",
+  },
+  backIcon: {
+    marginBottom: 20,
   },
   progressContainer: {
-    marginBottom: 20,
-    marginTop: 50,
+    marginBottom: 30,
   },
   progressText: {
     fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
+    fontWeight: "500",
+    marginBottom: 8,
   },
   progressBar: {
     height: 10,
-    backgroundColor: "#ccc",
+    backgroundColor: "#E0E0E0",
     borderRadius: 5,
     overflow: "hidden",
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#4CAF50",
   },
   questionContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 10,
   },
   question: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 22,
+    fontWeight: "600",
     textAlign: "center",
-  },
-  answerHighlight: {
-    fontSize: 16,
-  },
-  explanation: {
-    fontSize: 16,
-    marginTop: 10,  
-    marginBottom: 50, 
+    color: "#37474F",
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 20,
+    marginTop: 30,
   },
   button: {
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 10,
     width: "40%",
     alignItems: "center",
   },
   buttonYes: {
-    backgroundColor: "#ffcccb",
+    backgroundColor: "#FFCDD2",
   },
   buttonNo: {
-    backgroundColor: "#b3e5fc",
+    backgroundColor: "#BBDEFB",
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "600",
+    color: "#37474F",
+  },
+  answerHighlight: {
+    fontSize: 18,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  explanation: {
+    fontSize: 16,
+    marginTop: 10,
+    marginBottom: 30,
+    textAlign: "justify",
+    color: "#37474F",
   },
   continueButton: {
-    marginTop: 30,
-    backgroundColor: "#c8e6c9",
+    backgroundColor: "#A5D6A7",
     padding: 15,
     borderRadius: 8,
     alignItems: "center",
   },
   backButton: {
     marginTop: 20,
-    backgroundColor: "#ffc107",
-    padding: 10,
+    backgroundColor: "#FFC107",
+    padding: 12,
     borderRadius: 8,
     alignItems: "center",
   },

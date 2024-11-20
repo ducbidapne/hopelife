@@ -6,6 +6,8 @@ import {
   SafeAreaView,
   Image,
   View,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { auth } from "../FirebaseConfig";
@@ -32,7 +34,7 @@ const SignIn = () => {
 
   const handleForgotPassword = async () => {
     router.replace("/forgot-password");
-  }
+  };
 
   return (
     <LinearGradient
@@ -41,39 +43,47 @@ const SignIn = () => {
       end={{ x: 0, y: 1 }}
       style={styles.container}
     >
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Hello!</Text>
-        <Text style={styles.appName}>Sign In</Text>
-        <Image
-          source={require("@/assets/images/logo_hopeline.jpg")}
-          style={styles.appLogo}
-        />
-        <TextInput
-          style={styles.textEmail}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.textPassword}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <TouchableOpacity onPress={handleForgotPassword}>
-          <Text style={styles.textForgotPassword}>Forgot password?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-          <Text style={styles.text}>Sign In</Text>
-        </TouchableOpacity>
-        <View  style={styles.signUpContainer}>
-          <Text>Don’t have an account?</Text>
-          <TouchableOpacity onPress={handleSignUp}>
-            <Text style={styles.textSignUp}>Sign up</Text>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={80} // Điều chỉnh khoảng cách giữa TextInput và bàn phím
+      >
+        <SafeAreaView style={styles.container}>
+          <Text style={styles.title}>Hello!</Text>
+          <Text style={styles.appName}>Sign In</Text>
+          <Image
+            source={require("@/assets/images/logo_hopeline.jpg")}
+            style={styles.appLogo}
+          />
+          <TextInput
+            style={styles.textEmail}
+            placeholderTextColor="#888"
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            style={styles.textPassword}
+            placeholderTextColor="#888"
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <TouchableOpacity onPress={handleForgotPassword}>
+            <Text style={styles.textForgotPassword}>Forgot password?</Text>
           </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+          <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+            <Text style={styles.text}>Sign In</Text>
+          </TouchableOpacity>
+          <View style={styles.signUpContainer}>
+            <Text>Don’t have an account?</Text>
+            <TouchableOpacity onPress={handleSignUp}>
+              <Text style={styles.textSignUp}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     </LinearGradient>
   );
 };

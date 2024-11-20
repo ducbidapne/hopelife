@@ -71,7 +71,6 @@ export default function AddRecord() {
       const newRecordRef = push(recordRef);
       await set(newRecordRef, recordData);
 
-
       setIsLoading(false);
       Alert.alert("Success", "Record saved successfully!");
       router.push("/record");
@@ -173,6 +172,7 @@ export default function AddRecord() {
       <TextInput
         style={styles.input}
         placeholder="Enter title"
+        placeholderTextColor="#888"
         value={title}
         onChangeText={setTitle}
       />
@@ -180,6 +180,7 @@ export default function AddRecord() {
       <TextInput
         style={styles.input}
         placeholder="Enter description"
+        placeholderTextColor="#888"
         value={description}
         onChangeText={setDescription}
         multiline

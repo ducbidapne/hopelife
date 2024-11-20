@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 18,
     color: "#789DBC",
-    marginBottom: 50,
+    marginBottom: 20,
   },
   sosButton: {
     width: 200,
@@ -126,7 +126,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
-    marginBottom: 50,
+    marginBottom: 20,
+    borderWidth: 18, 
+    borderColor: "#F19483", 
   },
   sosText: {
     fontSize: 36,

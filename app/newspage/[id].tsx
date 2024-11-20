@@ -8,13 +8,14 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons"; // Import Icon
 import { useRouter, useLocalSearchParams } from "expo-router";
 
 export default function NewsDetailScreen() {
   const { id } = useLocalSearchParams();
   const [news, setNews] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter(); // Hook để điều hướng
+  const router = useRouter();
 
   useEffect(() => {
     if (id) {
@@ -39,13 +40,13 @@ export default function NewsDetailScreen() {
   };
 
   const goBack = () => {
-    router.back(); 
+    router.back();
   };
 
   if (loading) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#000" />
+        <ActivityIndicator size="large" color="#5C6BC0" />
       </View>
     );
   }
@@ -53,6 +54,12 @@ export default function NewsDetailScreen() {
   if (!news) {
     return (
       <View style={styles.errorContainer}>
+        {/* Nút Trở về */}
+        <TouchableOpacity style={styles.errorBackButton} onPress={goBack}>
+          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
+
+        {/* Thông báo lỗi */}
         <Text style={styles.errorText}>News not found.</Text>
       </View>
     );
@@ -62,10 +69,10 @@ export default function NewsDetailScreen() {
     <ScrollView style={styles.container}>
       {/* Nút Trở về */}
       <TouchableOpacity style={styles.backButton} onPress={goBack}>
-        <Text style={styles.backButtonText}>{"< Back"}</Text>
+        <Ionicons name="arrow-back" size={24} color="#5C6BC0" />
       </TouchableOpacity>
 
-      <Text style={styles.title}>{id}</Text>
+      {/* Tiêu đề và hình ảnh */}
       {news.urlToImage && (
         <Image source={{ uri: news.urlToImage }} style={styles.image} />
       )}
@@ -86,39 +93,58 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  errorText: {
-    fontSize: 18,
-    color: "red",
-  },
+
   image: {
     height: 200,
-    borderRadius: 8,
+    borderRadius: 12,
     marginBottom: 16,
+    resizeMode: "cover",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 12,
+    marginBottom: 16,
+    color: "#333",
   },
   content: {
     fontSize: 16,
     lineHeight: 24,
+    color: "#666",
   },
-  // Style cho nút trở về
+  // Style cho nút Trở về
   backButton: {
     marginTop: 16,
     marginBottom: 16,
-    padding: 8,
-    borderRadius: 5,
+    alignSelf: "flex-start",
+    padding: 10,
+    backgroundColor: "#E3E8FF",
+    borderRadius: 50,
   },
-  backButtonText: {
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
+  },
+  errorText: {
     fontSize: 20,
-    fontWeight: "bold",
-    color: "#5C6BC0",
+    fontWeight: "600",
+    color: "#FF6F61",
+    marginTop: 16,
+    textAlign: "center",
+  },
+  errorBackButton: {
+    position: "absolute",
+    top: 40, // Tùy chỉnh khoảng cách từ phía trên
+    left: 16,
+    backgroundColor: "#5C6BC0",
+    padding: 12,
+    borderRadius: 50,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

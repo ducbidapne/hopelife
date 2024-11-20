@@ -166,6 +166,7 @@ export default function Record() {
             <Text style={styles.modalTitle}>Enter Password</Text>
             <TextInput
               style={styles.passwordInput}
+               placeholderTextColor="#888"
               placeholder="Enter your password"
               secureTextEntry
               value={password}

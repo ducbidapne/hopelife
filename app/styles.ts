@@ -1,3 +1,10 @@
+import { Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get("window");
+const inputWidth = width * 0.9; // Chiều rộng input chiếm 90% màn hình
+const buttonWidth = width * 0.9; // Chiều rộng button chiếm 90% màn hình
+const logoSize = width * 0.5; // Kích thước logo là 50% chiều rộng màn hình
+
 const styles = {
   container: {
     flex: 1,
@@ -5,21 +12,21 @@ const styles = {
     alignItems: "center",
   },
   title: {
-    fontSize: 28,
+    fontSize: height * 0.035, // Tỉ lệ với chiều cao màn hình
     fontWeight: "800",
-    marginBottom: 5,
+    marginBottom: height * 0.01,
     color: "#1A237E",
   },
   textEmail: {
-    height: 50,
-    width: 350,
+    height: height * 0.06,
+    width: inputWidth,
     backgroundColor: "#FFFFFF",
     borderColor: "#E8EAF6",
     borderWidth: 2,
     borderRadius: 15,
-    marginVertical: 10,
+    marginVertical: height * 0.01,
     paddingLeft: 10,
-    fontSize: 16,
+    fontSize: height * 0.02,
     color: "#3C4858",
     shadowColor: "#9E9E9E",
     shadowOffset: { width: 0, height: 4 },
@@ -28,15 +35,15 @@ const styles = {
     elevation: 4,
   },
   textPassword: {
-    height: 50,
-    width: 350,
+    height: height * 0.06,
+    width: inputWidth,
     backgroundColor: "#FFFFFF",
     borderColor: "#E8EAF6",
     borderWidth: 2,
     borderRadius: 15,
-    marginVertical: 10,
+    marginVertical: height * 0.01,
     paddingLeft: 10,
-    fontSize: 16,
+    fontSize: height * 0.02,
     color: "#3C4858",
     shadowColor: "#9E9E9E",
     shadowOffset: { width: 0, height: 4 },
@@ -45,9 +52,9 @@ const styles = {
     elevation: 4,
   },
   button: {
-    height: 50,
-    width: 350,
-    marginVertical: 15,
+    height: height * 0.06,
+    width: buttonWidth,
+    marginVertical: height * 0.02,
     backgroundColor: "#5C6BC0",
     borderRadius: 15,
     alignItems: "center",
@@ -60,39 +67,39 @@ const styles = {
   },
   text: {
     color: "#FFFFFF",
-    fontSize: 18,
+    fontSize: height * 0.022,
     fontWeight: "600",
   },
   textForgotPassword: {
     color: "#5C6BC0",
-    fontSize: 18,
+    fontSize: height * 0.02,
     fontWeight: "600",
-    marginBottom: 20,
-    marginLeft: 200,
+    marginBottom: height * 0.02,
+    marginLeft: width * 0.4,
   },
   textSignUp: {
     color: "#5C6BC0",
-    fontSize: 18,
+    fontSize: height * 0.02,
     fontWeight: "600",
     marginLeft: 10,
   },
   appLogo: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    marginBottom: 70,
+    width: logoSize,
+    height: logoSize,
+    borderRadius: logoSize / 2,
+    marginBottom: height * 0.1,
   },
   appName: {
-    fontSize: 40,
+    fontSize: height * 0.05,
     fontWeight: "700",
-    marginBottom: 100,
+    marginBottom: height * 0.1,
     color: "#1A237E",
   },
   signUpContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10,
+    marginTop: height * 0.02,
   },
 };
 

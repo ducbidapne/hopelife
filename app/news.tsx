@@ -11,6 +11,8 @@ import {
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { getTrendingNews } from "../api/news";
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
 
 export type itemNews = {
   id: string;
@@ -25,10 +27,10 @@ export default function NewsScreen() {
   const [trendingNews, setTrendingNews] = useState<itemNews[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredNews, setFilteredNews] = useState<itemNews[]>(trendingNews);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const fetchNewsSearch = async (search: string | undefined) => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const response = await fetch(
         `https://newsapi.org/v2/everything?q=${search}&apiKey=50a519dff4234f45ae711671927cb913`
@@ -64,22 +66,26 @@ export default function NewsScreen() {
   return (
     <ScrollView style={{ padding: 16, backgroundColor: "#f7f7f7" }}>
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.replace("/(tabs)")}
-        >
-          <Text style={styles.backButtonText}>{'<Back'}</Text>
+        <TouchableOpacity style={styles.backButton}>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color="#5C6BC0"
+            onPress={() => router.push("/(tabs)")}
+            style={styles.backIcon}
+          />
         </TouchableOpacity>
 
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
+            placeholderTextColor="#888"
             placeholder="Search news..."
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
           <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-            <Text style={styles.searchButtonText}>Search</Text>
+            <Ionicons name="search" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
       </View>
@@ -124,6 +130,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginTop: 16,
   },
+  backIcon: {
+    marginRight: 20,
+  },
   backButton: {
     marginTop: 16,
     marginBottom: 16,
@@ -134,27 +143,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 10,
     color: "#5C6BC0",
-  },
-  searchContainer: {
-    flexDirection: "row",
-    flex: 1,
-    alignItems: "center",
-  },
-  searchInput: {
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingLeft: 8,
-    flex: 1,
-    backgroundColor: "#fff",
-    marginRight: 8,
-  },
-  searchButton: {
-    backgroundColor: "#5C6BC0",
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderRadius: 8,
   },
   searchButtonText: {
     color: "#fff",
@@ -190,5 +178,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 24,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+  },
+  searchInput: {
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingLeft: 8,
+    flex: 1,
+    backgroundColor: "#fff",
+    marginRight: 8,
+  },
+  searchButton: {
+    backgroundColor: "#5C6BC0",
+    padding: 10,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -39,7 +39,7 @@ export default function MapScreen() {
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       },
-      phone: "123456789",
+      phone: "113",
     },
     {
       id: "2",
@@ -52,7 +52,7 @@ export default function MapScreen() {
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       },
-      phone: "987654321",
+      phone: "115",
     },
   ];
 
@@ -95,7 +95,7 @@ export default function MapScreen() {
         }}
         style={styles.backButton}
       >
-        <Ionicons name="arrow-back" size={30} color="#fff" /> {/* Back icon */}
+        <Ionicons name="arrow-back" size={30} color="#fff" />
       </TouchableOpacity>
       <MapView style={styles.map} initialRegion={currentLocation}>
         <Marker
@@ -104,21 +104,6 @@ export default function MapScreen() {
           pinColor="red"
           title="You"
           description="Your current location"
-        />
-        <Marker
-          key={1}
-          coordinate={locations[0]?.coordinate}
-          pinColor="green"
-          title="Police Station"
-          description="Police Station location"
-        />
-
-        <Marker
-          key={2}
-          coordinate={locations[1]?.coordinate}
-          pinColor="pink"
-          title="Hospital"
-          description="Hospital location"
         />
       </MapView>
 

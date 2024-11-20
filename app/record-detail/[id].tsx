@@ -72,7 +72,7 @@ export default function RecordDetail() {
               `records/${auth.currentUser?.uid}/${id}`
             );
             await remove(recordRef); // Xóa bản ghi khỏi Firebase
-            router.back(); // Quay lại trang trước khi xóa
+            router.push('/record'); // Quay lại trang trước khi xóa
           } catch (error) {
             console.error("Error deleting record:", error);
           }
