@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { getTrendingNews } from "../api/news";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export type itemNews = {
   id: string;
@@ -24,6 +25,7 @@ export type itemNews = {
 };
 
 export default function NewsScreen() {
+  const { theme } = useTheme();
   const [trendingNews, setTrendingNews] = useState<itemNews[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredNews, setFilteredNews] = useState<itemNews[]>(trendingNews);
@@ -62,9 +64,10 @@ export default function NewsScreen() {
       setFilteredNews(trendingNews);
     }
   };
+  const colors = theme === 'dark' ? ['#333333', '#1A1A1A'] : ['#C9E9D2', '#FEF9F2'];
 
   return (
-    <ScrollView style={{ padding: 16, backgroundColor: "#f7f7f7" }}>
+    <ScrollView style={{ padding: 16, backgroundColor: "#f7f7f7" }} colors={colors}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton}>
           <Ionicons

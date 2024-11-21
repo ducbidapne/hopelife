@@ -1,7 +1,6 @@
 import {
   DarkTheme,
   DefaultTheme,
-  ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -11,6 +10,8 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import React from "react";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { LanguageProvider } from "@/language/LanguageContext";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -32,26 +33,30 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="news" options={{ headerShown: false }} />
-        <Stack.Screen name="newspage/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="record" options={{ headerShown: false }} />
-        <Stack.Screen name="record-detail/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="record-edit/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="add-record" options={{ headerShown: false }} />
-        <Stack.Screen name="ai-support" options={{ headerShown: false }} />
-        <Stack.Screen name="map" options={{ headerShown: false }} />
-        <Stack.Screen name="quiz" options={{ headerShown: false }} />
-        <Stack.Screen name="sign-in" options={{ headerShown: false }} />
-        <Stack.Screen name="sign-up" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
-        <Stack.Screen name="change-password" options={{ headerShown: true, title: "Change Password"}} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <LanguageProvider>
+      <ThemeProvider>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="news" options={{ headerShown: false }} />
+          <Stack.Screen name="newspage/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="record" options={{ headerShown: false }} />
+          <Stack.Screen name="record-detail/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="record-edit/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="add-record" options={{ headerShown: false }} />
+          <Stack.Screen name="ai-support" options={{ headerShown: false }} />
+          <Stack.Screen name="map" options={{ headerShown: false }} />
+          <Stack.Screen name="quiz" options={{ headerShown: false }} />
+          <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+          <Stack.Screen name="sign-up" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
+          <Stack.Screen name="change-password" options={{ headerShown: false, title: "Change Password" }} />
+          <Stack.Screen name="theme" options={{ headerShown: false }} />
+          <Stack.Screen name="language" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }

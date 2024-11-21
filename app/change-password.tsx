@@ -16,8 +16,11 @@ import {
 } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../contexts/ThemeContext"; // Thêm dòng này
 
 const ChangePasswordScreen = () => {
+  const { theme } = useTheme(); // Lấy theme từ Context
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -29,7 +32,6 @@ const ChangePasswordScreen = () => {
     }
 
     try {
-      // Reauthenticate user
       if (auth.currentUser && auth.currentUser.email) {
         const credential = EmailAuthProvider.credential(
           auth.currentUser.email,
@@ -45,7 +47,6 @@ const ChangePasswordScreen = () => {
         "Success",
         "Password has been updated successfully! Please sign in again."
       );
-      // Clear session
       auth.signOut();
       router.replace("/sign-in");
     } catch (error: any) {
@@ -54,18 +55,31 @@ const ChangePasswordScreen = () => {
     }
   };
 
+  const colors = theme === 'dark' ? ['#333333', '#1A1A1A'] : ['#C9E9D2', '#FEF9F2'];
+  const textColor = theme === 'dark' ? '#FFFFFF' : '#4A6FA5';
+  const inputBackgroundColor = theme === 'dark' ? '#666' : '#fff';
+  const inputBorderColor = theme === 'dark' ? '#888' : '#ccc';
+  const buttonColor = theme === 'dark' ? '#666' : '#4A6FA5';
+  const buttonText = theme === 'dark' ? '#FFFFFF' : '#ffffff';
+
   return (
     <LinearGradient
-      colors={["#C9E9D2", "#FEF9F2"]}
+      colors={colors}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
       style={styles.container}
     >
+      <Ionicons
+        name="arrow-back"
+        size={24}
+        color={textColor}
+        onPress={() => router.push("/(tabs)/setting")}
+        style={styles.backIcon}
+      />
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Change Password</Text>
-
+        <Text style={[styles.title, { color: textColor }]}>Change Password</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: inputBackgroundColor, borderColor: inputBorderColor }]}
           placeholderTextColor="#888"
           placeholder="Current Password"
           value={currentPassword}
@@ -73,7 +87,7 @@ const ChangePasswordScreen = () => {
           secureTextEntry
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: inputBackgroundColor, borderColor: inputBorderColor }]}
           placeholder="New Password"
           placeholderTextColor="#888"
           value={newPassword}
@@ -81,16 +95,15 @@ const ChangePasswordScreen = () => {
           secureTextEntry
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: inputBackgroundColor, borderColor: inputBorderColor }]}
           placeholder="Confirm New Password"
           placeholderTextColor="#888"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
         />
-
-        <TouchableOpacity style={styles.button} onPress={handleUpdatePassword}>
-          <Text style={styles.buttonText}>Update Password</Text>
+        <TouchableOpacity style={[styles.button, { backgroundColor: buttonColor }]} onPress={handleUpdatePassword}>
+          <Text style={[styles.buttonText, { color: buttonText }]}>Update Password</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </LinearGradient>
@@ -105,10 +118,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 50,
   },
+  backIcon: {
+    marginBottom: 20,
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#4A6FA5",
     marginBottom: 20,
   },
   input: {
@@ -116,19 +131,15 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     borderWidth: 1,
     padding: 10,
-    borderColor: "#ccc",
     borderRadius: 5,
-    backgroundColor: "#fff",
   },
   button: {
     marginTop: 20,
-    backgroundColor: "#4A6FA5",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
   },
   buttonText: {
-    color: "#ffffff",
     fontSize: 16,
     fontWeight: "600",
   },

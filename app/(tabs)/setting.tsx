@@ -9,18 +9,19 @@ import {
   Alert,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { db, auth } from "../../FirebaseConfig";
+import { db, auth } from "@/FirebaseConfig";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { launchImageLibraryAsync } from "expo-image-picker";
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
-import { storage } from "../../FirebaseConfig";
+import { storage } from "@/FirebaseConfig";
+import { useTheme } from "@/contexts/ThemeContext"; 
 
 export default function SettingsScreen() {
   const [image, setImage] = useState<string | null>(null);
-
+  const { theme } = useTheme();
   // Load image from Firebase Storage
   useEffect(() => {
     const getAvatar = async () => {
@@ -102,9 +103,15 @@ export default function SettingsScreen() {
       }
     }
   };
+
+  const textColor = theme === 'dark' ? '#FFFFFF' : '#4A6FA5';
+  const backgroundColor = theme === 'dark' ? '#333' : '#FFF';
+  const borderColor = theme === 'dark' ? '#555' : '#E5E5E5';
+  const cardColor = theme === 'dark' ? '#444' : '#F8F9FA';
+
   return (
     <LinearGradient
-      colors={["#C9E9D2", "#FEF9F2"]}
+      colors={theme === 'dark' ? ['#333333', '#1A1A1A'] : ['#C9E9D2', '#FEF9F2']}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
       style={styles.container}
@@ -140,7 +147,12 @@ export default function SettingsScreen() {
                   handleLogout();
                 } else if (item.title === "Privacy & Security") {
                   handleChangePassword();
-                } else {
+                } else if (item.title === "Light/Dark") {
+                  router.push("/theme");
+                } else if (item.title === "Language") {
+                  router.push("/language");
+                }
+                else {
                   Alert.alert(
                     "Info",
                     `${item.title} option is not implemented yet.`

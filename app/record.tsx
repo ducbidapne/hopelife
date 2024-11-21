@@ -15,6 +15,8 @@ import { router } from "expo-router";
 import { db, auth } from "../FirebaseConfig";
 import { ref, query, orderByChild, equalTo, onValue } from "firebase/database";
 import { signInWithEmailAndPassword } from "@firebase/auth";
+import { useTheme } from "@/contexts/ThemeContext";
+import { LinearGradient } from "expo-linear-gradient";
 
 export type ItemRecordType = {
   id?: string;
@@ -26,6 +28,7 @@ export type ItemRecordType = {
 };
 
 export default function Record() {
+  const { theme } = useTheme();
   const [records, setRecords] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
@@ -44,7 +47,7 @@ export default function Record() {
     const recordsQuery = query(
       recordsRef,
       orderByChild("username"),
-      equalTo(currentUser.email) // Lọc theo email của user hiện tại
+      equalTo(currentUser.email) 
     );
 
     // Lắng nghe thay đổi dữ liệu
@@ -107,13 +110,16 @@ export default function Record() {
     }
   };
 
+  const colors = theme === 'dark' ? ['#333333', '#1A1A1A'] : ['#C9E9D2', '#FEF9F2'];
+  const textColor = theme === 'dark' ? '#FFFFFF' : '#4A6FA5';
+
   const renderRecordItem = ({ item }: { item: ItemRecordType }) => (
     <TouchableOpacity
-      style={styles.recordItem}
-      onPress={() => handleRecordPress(item)} // Mở modal yêu cầu mật khẩu khi bấm vào item
+      style={[styles.recordItem]}
+      onPress={() => handleRecordPress(item)} 
     >
       <Ionicons name="document-text-outline" size={24} color="#FF4C29" />
-      <Text style={styles.recordText}>
+      <Text style={[styles.recordText, {color: textColor}]}>
         {new Date(item.date).toLocaleDateString()}
       </Text>
     </TouchableOpacity>
@@ -128,7 +134,12 @@ export default function Record() {
   }
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={colors}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      style={styles.container}
+    >
       <View style={styles.header}>
         <Ionicons
           name="arrow-back"
@@ -139,12 +150,12 @@ export default function Record() {
         <Text style={styles.title}>Record List</Text>
       </View>
       <View style={styles.profile}>
-        <Ionicons name="person-circle-outline" size={60} color="#000" />
+        <Ionicons name="person-circle-outline" size={60} color={textColor} />
         <View>
-          <Text style={styles.name}>{currentUser?.email}</Text>
+          <Text style={[styles.name, {color: textColor}]}>{currentUser?.email}</Text>
         </View>
       </View>
-      <Text style={styles.subtitle}>List of Records</Text>
+      <Text style={[styles.subtitle, {color: textColor}]}>List of Records</Text>
       <FlatList
         data={records}
         renderItem={renderRecordItem}
@@ -189,7 +200,7 @@ export default function Record() {
           </View>
         </View>
       </Modal>
-    </View>
+    </LinearGradient>
   );
 }
 

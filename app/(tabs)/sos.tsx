@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { db, auth } from "../../FirebaseConfig";
+import { db, auth } from "@/FirebaseConfig";
+import { useTheme } from "@/contexts/ThemeContext";
 
 type EmergencyContact = {
   name: string;
@@ -17,6 +18,7 @@ type EmergencyContact = {
 };
 
 export default function SOSScreen(): JSX.Element {
+  const { theme } = useTheme(); 
   const user = auth.currentUser;
   const username = user?.email?.split("@");
 
@@ -59,7 +61,7 @@ export default function SOSScreen(): JSX.Element {
 
   return (
     <LinearGradient
-      colors={["#C9E9D2", "#FEF9F2"]}
+      colors={theme === 'dark' ? ['#333333', '#1A1A1A'] : ['#C9E9D2', '#FEF9F2']}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
       style={styles.container}

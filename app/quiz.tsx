@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
+import { useTheme } from "@/contexts/ThemeContext";
+import { LinearGradient } from "expo-linear-gradient";
 
 const questions = [
   {
@@ -80,6 +82,7 @@ const questions = [
 ];
 
 export default function Quiz() {
+  const {theme} = useTheme();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -108,8 +111,20 @@ export default function Quiz() {
     }
   };
 
+  const colors = theme === 'dark' ? ['#333333', '#1A1A1A'] : ['#C9E9D2', '#FEF9F2'];
+  const textColor = theme === 'dark' ? '#FFFFFF' : '#4A6FA5';
+  const inputBackgroundColor = theme === 'dark' ? '#666' : '#fff';
+  const inputBorderColor = theme === 'dark' ? '#888' : '#ccc';
+  const buttonColor = theme === 'dark' ? '#666' : '#4A6FA5';
+  const buttonText = theme === 'dark' ? '#FFFFFF' : '#ffffff';
+
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={colors}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      style={styles.container}
+    >
       <Ionicons
         name="arrow-back"
         size={24}
@@ -118,7 +133,7 @@ export default function Quiz() {
         style={styles.backIcon}
       />
       <View style={styles.progressContainer}>
-        <Text style={styles.progressText}>
+        <Text style={[styles.progressText, {color: textColor}]}>
           Question {currentQuestion + 1} of {questions.length}
         </Text>
         <View style={styles.progressBar}>
@@ -132,7 +147,7 @@ export default function Quiz() {
       </View>
 
       <View style={styles.questionContainer}>
-        <Text style={styles.question}>
+        <Text style={[styles.question, {color: textColor}]}>
           {questions[currentQuestion].question}
         </Text>
       </View>
@@ -183,7 +198,7 @@ export default function Quiz() {
           <Text style={styles.buttonText}>BACK</Text>
         </TouchableOpacity>
       )}
-    </View>
+    </LinearGradient>
   );
 }
 

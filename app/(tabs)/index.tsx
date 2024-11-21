@@ -4,8 +4,16 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { db, auth } from "../../FirebaseConfig";
 import { router } from "expo-router";
+import { useTheme } from "@/contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 export default function HomeScreen() {
+  const { theme } = useTheme();  // Sử dụng theme từ Context
+  const colors = theme === 'dark' ? ['#333333', '#1A1A1A'] : ['#C9E9D2', '#FEF9F2'];
+  const textColor = theme === 'dark' ? '#FFFFFF' : '#000';
+  const cardColor = theme === 'dark' ? '#242424' : '#F8F9FA';
+  const iconColor = theme === 'dark' ? '#FFFFFF' : '#789DBC';
+
   const features = [
     { name: "Record", icon: "mic-outline" },
     { name: "Look up", icon: "search-outline" },
@@ -40,25 +48,29 @@ export default function HomeScreen() {
         break;
     }
   };
+  const { t, i18n } = useTranslation();
 
+  const changeLanguage = (language: any) => {
+    i18n.changeLanguage(language);
+  };
   return (
     <LinearGradient
-      colors={["#C9E9D2", "#FEF9F2"]}
+      colors={colors}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
       style={styles.container}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>How can I help you, {username![0]}?</Text>
+        <Text style={[styles.title, { color: textColor }]}>{t("How can I help you")}, {username![0]}?</Text>
         <View style={styles.grid}>
           {features.map((feature, index) => (
             <TouchableOpacity
               key={index}
-              style={styles.card}
+              style={[styles.card, { backgroundColor: cardColor }]}
               onPress={() => handleFeaturePress(feature.name)}
             >
-              <Ionicons name={feature.icon} size={50} color="#789DBC" />
-              <Text style={styles.cardText}>{feature.name}</Text>
+              <Ionicons name={feature.icon} size={50} color={iconColor} />
+              <Text style={[styles.cardText, { color: textColor }]}>{feature.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -76,7 +88,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "600",
-    color: "#000",
     marginBottom: 30,
     textAlign: "center",
   },
@@ -89,7 +100,6 @@ const styles = StyleSheet.create({
     width: "47%",
     height: "47%",
     aspectRatio: 1,
-    backgroundColor: "#F8F9FA",
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
@@ -104,6 +114,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 20,
     fontWeight: "600",
-    color: "#789DBC",
   },
 });
